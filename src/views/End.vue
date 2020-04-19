@@ -5,6 +5,7 @@
     <div v-if="pointsLoaded">
       <div class="has-text-centered notification is-primary">
         <p class="is-size-1">{{points.toFixed(2)}} in {{timeToString(totalTime)}}</p>
+        <p class="is-size-5">{{corrects}} corrects, {{incorrects}} incorrects and {{unaswered}} unaswered</p>
         <p class="is-size-7">On viewed questions only</p>
       </div>
 
@@ -67,8 +68,8 @@ export default {
     return {
       pointsLoaded: false,
       viewed: 0,
-      correct: 0,
-      incorrect: 0,
+      corrects: 0,
+      incorrects: 0,
       unaswered: 0,
       points: 0,
       incorrectQuestions: []
@@ -115,9 +116,9 @@ export default {
           }
 
           if (question.isCorrect) {
-            this.correct++;
+            this.corrects++;
           } else {
-            this.incorrect++;
+            this.incorrects++;
             this.incorrectQuestions.push(question);
           }
         }
@@ -137,8 +138,8 @@ export default {
 
     // Calculate points
     this.points =
-      process.env.VUE_APP_WEIGHT_CORRECT * this.correct +
-      process.env.VUE_APP_WEIGHT_INCORRECT * this.incorrect +
+      process.env.VUE_APP_WEIGHT_CORRECT * this.corrects +
+      process.env.VUE_APP_WEIGHT_INCORRECT * this.incorrects +
       process.env.VUE_APP_WEIGHT_UNANSWERED * this.unaswered;
 
     // Display
