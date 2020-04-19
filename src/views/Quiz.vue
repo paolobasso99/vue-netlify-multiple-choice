@@ -23,7 +23,6 @@ import Tabletop from "tabletop";
 import QuestionBox from "@/components/QuestionBox";
 import QuestionNav from "@/components/QuestionNav";
 import router from "@/router";
-import _sampleSize from "lodash/sampleSize";
 import axios from "axios";
 
 export default {
@@ -35,12 +34,13 @@ export default {
   },
 
   props: {
-    howMany: Number
+    howMany: String
   },
 
   data: function() {
     return {
       questionsLoaded: false,
+      numberOfQuestions: "all",
       questions: [],
       index: 0,
       time: 0
@@ -65,7 +65,7 @@ export default {
     },
     next: function() {
       // Go to next
-      if (this.index + 1 < this.howMany) {
+      if (this.index + 1 < this.numberOfQuestions) {
         this.index++;
       }
     },
@@ -80,7 +80,7 @@ export default {
       });
     },
     goTo: function(i) {
-      if (i < this.howMany) {
+      if (i < this.numberOfQuestions) {
         this.index = i;
       }
     },
@@ -93,21 +93,34 @@ export default {
   },
 
   mounted: async function() {
+    // Determinate how many questions
+    if (this.howMany != "all") {
+      this.numberOfQuestions = parseInt(this.howMany);
+      if (isNaN(this.numberOfQuestions) || this.numberOfQuestions < 1) {
+        return router.push({
+          name: "quiz",
+          params: {
+            howMany: "all"
+          }
+        });
+      }
+    }
+
     // Get questions
-    const questions = await axios.get("/.netlify/functions/questions");
+    const questions = await axios.get("/.netlify/functions/questions", {
+      params: { howMany: this.numberOfQuestions }
+    });
 
     if (typeof questions.data == "undefined" || questions.data.length == 0) {
       throw "Unable to get questions from the server.";
     } else {
-      // Build question arrays
-      const pickedQuestionsIndexes = _sampleSize(
-        [...Array(questions.data.length).keys()],
-        this.howMany
-      );
-
-      for (let q of pickedQuestionsIndexes) {
-        this.questions.push(questions.data[q]);
+      // Handle "all"
+      if (this.numberOfQuestions == "all") {
+        this.numberOfQuestions = questions.data.length;
       }
+
+      // Build question arrays
+      this.questions = questions.data;
 
       // Render quiz
       this.questionsLoaded = true;

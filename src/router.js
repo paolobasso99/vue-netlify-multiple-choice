@@ -23,7 +23,7 @@ const router = new Router({
       component: Quiz,
       props: function(route) {
         return {
-          howMany: Number(route.params.howMany),
+          howMany: String(route.params.howMany),
         };
       },
     },

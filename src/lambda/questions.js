@@ -1,5 +1,6 @@
 import Tabletop from "tabletop";
 import _arrayShuffle from "lodash/shuffle";
+import _sampleSize from "lodash/sampleSize";
 
 export async function handler(event, context, callback) {
   const questions = [];
@@ -31,7 +32,7 @@ export async function handler(event, context, callback) {
         while (row < sheet.length && sheet[row].number.length == 0) {
           const answer = {
             text: sheet[row].question,
-            isCorrect: sheet[row].answer.toLowerCase() == "true" ? true : false
+            isCorrect: sheet[row].answer.toLowerCase() == "true" ? true : false,
           };
 
           question.answers.push(answer);
@@ -42,6 +43,7 @@ export async function handler(event, context, callback) {
         // Shuffle answers
         question.answers = _arrayShuffle(question.answers);
 
+        // Add question to array
         questions.push(question);
       }
     }
@@ -49,8 +51,16 @@ export async function handler(event, context, callback) {
     console.error(e, e.stack);
   }
 
+  // Determinate how many questions
+  let { howMany } = event.queryStringParameters;
+  howMany = parseInt(howMany);
+  if (isNaN(howMany) || howMany < 1) {
+    howMany = questions.length;
+  }
+
+  // Return shufled questions of the right ammount
   callback(null, {
     statusCode: 200,
-    body: JSON.stringify(questions),
+    body: JSON.stringify(_sampleSize(questions, howMany)),
   });
 }
