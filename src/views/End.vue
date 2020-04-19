@@ -4,7 +4,7 @@
 
     <div v-if="pointsLoaded">
       <div class="has-text-centered notification is-primary">
-        <p class="is-size-1">{{points.toFixòed(2)}} in {{timeToString(totalTime)}}</p>
+        <p class="is-size-1">{{points.toFixed(2)}} in {{timeToString(totalTime)}}</p>
         <p class="is-size-5">{{corrects}} corrects, {{incorrects}} incorrects and {{unaswered}} unaswered</p>
         <p class="is-size-7">On viewed questions only</p>
       </div>
