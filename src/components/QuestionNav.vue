@@ -14,7 +14,7 @@
               @click="goTo(i)"
               :class="{
                 'is-current': i==index,
-                'has-text-light has-background-grey': questions[i].answered && i!=index
+                'has-text-light has-background-grey': isQuestionAnswered(questions[i]) && i!=index
               }"
             >{{ i+1 }}</a>
           </li>
@@ -48,6 +48,15 @@ export default {
     time: Number,
     timeToString: Function,
     goTo: Function
+  },
+
+  methods: {
+    isQuestionAnswered(question) {
+      if (Array.isArray(question.selectedAnswers)) {
+        return question.selectedAnswers.length > 0;
+      }
+      return true;
+    }
   }
 };
 </script>

@@ -12,12 +12,15 @@
                 v-model="question.selectedAnswers"
                 :native-value="i"
                 :name="question.number"
+                :selected="question.selectedAnswers==i"
+                :key="question.number"
               />
               <b-checkbox
                 v-if="question.type == 'multiple'"
                 v-model="question.selectedAnswers"
                 :native-value="i"
                 :name="question.number"
+                :key="question.number"
               />
               <span
                 style="display: inline-block; margin-top: -15px; vertical-align: middle;"

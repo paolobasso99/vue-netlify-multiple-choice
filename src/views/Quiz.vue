@@ -76,19 +76,12 @@ export default {
           questions: this.questions,
           totalTime: totalTime,
           timeToString: this.timeToString
-        },
-        query: {
-          key: this.$route.query.key
         }
       });
     },
     goTo: function(i) {
-      // Set answered
-      this.questions[this.index].answered = true;
-
-      // Go to next
       if (i < this.howMany) {
-        //this.index = i;
+        this.index = i;
       }
     },
     startTimer: function() {

@@ -44,9 +44,6 @@ export default {
 				name: 'quiz',
 				params: { 
 					howMany: this.selectedNumber == 'custom' ?  this.customNumber : this.selectedNumber
-				},
-				query: { 
-					key: this.$route.query.key
 				}
 			});
 		}
