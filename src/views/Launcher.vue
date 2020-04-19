@@ -11,21 +11,17 @@
 					@change="selectedNumber=n"
 					v-model="selectedNumber"
 				>
-				Quiz con {{ n }} domande
+				Quiz with {{ n }} questions
 			</label>
 
 			<label class="list-item">
-				<input type="radio" name="number-questions" @change="selectedNumber=999" :value="999" v-model="selectedNumber" :checked="selectedNumber==999">
-				Quiz con tutte le domande 
-			</label>
-			<label class="list-item">
 				<input type="radio" name="number-questions" value="custom" v-model="selectedNumber">
-				Quiz con <input type="number" v-model.number="customNumber"  min="1" @focus="selectedNumber = 'custom'"> domande
+				Quiz with <input type="number" v-model.number="customNumber"  min="1" @focus="selectedNumber = 'custom'"> questions
 			</label>
 		</div>
 
 		<div class="container has-text-centered">
-			<button class="button is-large is-primary" @click="startQuiz">Inizia Quiz</button>
+			<button class="button is-large is-primary" @click="startQuiz">Start Quiz</button>
 		</div>
 	</div>
 </template>
@@ -37,7 +33,7 @@ export default {
 	name: 'launcher',
 	data: function() {
     return {
-			defaultQuestions: [10, 20, 30],
+			defaultQuestions: [10, 20, 30, 9999],
 			selectedNumber: 30,
 			customNumber: 30
 		}

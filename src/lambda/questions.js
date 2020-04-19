@@ -1,45 +1,56 @@
-import Tabletop from 'tabletop';
+import Tabletop from "tabletop";
+import _arrayShuffle from "lodash/shuffle";
 
-export async function handler (event, context, callback) {
+export async function handler(event, context, callback) {
+  const questions = [];
 
-  // Get sheet
-  const sheet = await Tabletop.init({
-    key: process.env.VUE_APP_SPREADSHEET_URL,
-    simpleSheet: true
-  });
+  try {
+    // Get sheet
+    const sheet = await Tabletop.init({
+      key: process.env.VUE_APP_SPREADSHEET_URL,
+      simpleSheet: true,
+    });
 
-  // Filter completly answered questions
-  const filtered = [];
-  let i = 0;
-  while(i<sheet.length) {
-    let keep = true;
-    let lastIndex = i+4;
-    let firstIndex = i;
+    // Get answered questions
+    let row = 0;
+    while (row < sheet.length && sheet[row].question.length > 0) {
+      // Check if it is a question title (there must be a number)
+      if (sheet[row].number.length > 0) {
+        const question = {
+          number: sheet[row].number,
+          title: sheet[row].question,
+          viewed: false,
+          type: "",
+          answers: [],
+          isCorrect: true,
+          selectedAnswers: [],
+        };
 
-    // Check if question is present
-    if(sheet[firstIndex].text == "") {
-      i+=4;
-      keep=false
-    } else {
-      // Check if it has all the answers
-      while(++i <= lastIndex) {
-        let answer = sheet[i].answer.toLowerCase();
-        if(answer != 'true' && answer != 'false') {
-          keep = false;
-          i=lastIndex;
+        // Get answers
+        row++;
+        while (row < sheet.length && sheet[row].number.length == 0) {
+          const answer = {
+            text: sheet[row].question,
+            isCorrect: sheet[row].answer.toLowerCase() == "true" ? true : false
+          };
+
+          question.answers.push(answer);
+
+          row++;
         }
-      }
-    }
 
-    if(keep) {
-      for(let j = firstIndex; j <= lastIndex; j++) {
-        filtered.push(sheet[j]);
+        // Shuffle answers
+        question.answers = _arrayShuffle(question.answers);
+
+        questions.push(question);
       }
     }
+  } catch (e) {
+    console.error(e, e.stack);
   }
 
   callback(null, {
     statusCode: 200,
-    body: JSON.stringify(filtered)
-  })
+    body: JSON.stringify(questions),
+  });
 }

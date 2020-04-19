@@ -1,33 +1,39 @@
 <template>
   <div class="columns">
-
     <div class="column is-7">
-        <nav id="questions-pagination" class="pagination is-small" role="navigation" aria-label="pagination">
-          <ul class="pagination-list">
-            <li v-for="(q, i) in questions" v-bind:key="i+1">
-              <a class="pagination-link" @click="goTo(i)" :class="{
+      <nav
+        id="questions-pagination"
+        class="pagination is-small"
+        role="navigation"
+        aria-label="pagination"
+      >
+        <ul class="pagination-list">
+          <li v-for="(q, i) in questions" v-bind:key="i+1">
+            <a
+              class="pagination-link"
+              @click="goTo(i)"
+              :class="{
                 'is-current': i==index,
                 'has-text-light has-background-grey': questions[i].answered && i!=index
-              }">{{ i+1 }}</a>
-            </li>
-          </ul>
-        </nav>
+              }"
+            >{{ i+1 }}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
 
     <div class="column is-1 has-text-centered">
-      <div id="timer" class="has-text-weight-bold">
-        {{timeToString(time)}}
-      </div>
+      <div id="timer" class="has-text-weight-bold">{{timeToString(time)}}</div>
     </div>
 
     <div class="column is-4 has-text-centered">
-      <button class="button is-success" @click="submit(time)">Concludi</button>
-      <button 
+      <button class="button is-success" @click="submit(time)">Submit</button>
+      <button
         class="button is-primary"
         @click="next"
         style="margin-left: 0.5rem;"
         v-if="index +1 < questions.length"
-      >Prossima</button>
+      >Next</button>
     </div>
   </div>
 </template>
@@ -43,5 +49,5 @@ export default {
     timeToString: Function,
     goTo: Function
   }
-}
+};
 </script>
