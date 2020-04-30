@@ -1,6 +1,22 @@
 import Tabletop from "tabletop";
 import _arrayShuffle from "lodash/shuffle";
 import _sampleSize from "lodash/sampleSize";
+import striptags from "striptags";
+
+const processText = (text) => {
+  text = text.toString().trim();
+
+  // Strip HTML tags
+  text = striptags(text);
+
+  // Detect and format links
+  const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  text = text.replace(urlRegex, (url) => {
+    return '<a href="' + url + '" target="_blank">' + url + "</a>";
+  });
+
+  return text;
+};
 
 export async function handler(event, context, callback) {
   const questions = [];
@@ -19,7 +35,7 @@ export async function handler(event, context, callback) {
       if (sheet[row].number.length > 0) {
         const question = {
           number: sheet[row].number,
-          title: sheet[row].question,
+          title: processText(sheet[row].question),
           viewed: false,
           type: "",
           answers: [],
@@ -31,7 +47,7 @@ export async function handler(event, context, callback) {
         row++;
         while (row < sheet.length && sheet[row].number.length == 0) {
           const answer = {
-            text: sheet[row].question,
+            text: processText(sheet[row].question),
             isCorrect: sheet[row].answer.toLowerCase() == "true" ? true : false,
           };
 

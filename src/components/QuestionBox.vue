@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="subtitle">{{ question.title }}</h2>
+    <h2 class="subtitle" v-html="question.title"></h2>
 
     <div class="answers-container">
       <div class="list-item" v-for="(answer, i) in question.answers" v-bind:key="i">
@@ -24,7 +24,8 @@
               />
               <span
                 style="display: inline-block; margin-top: -15px; vertical-align: middle;"
-              >{{ answer.text }}</span>
+                v-html="answer.text"
+              ></span>
             </label>
           </div>
         </div>
