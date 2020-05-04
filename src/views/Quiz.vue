@@ -3,7 +3,7 @@
     <b-loading :is-full-page="true" :active="!questionsLoaded"></b-loading>
 
     <div v-if="questionsLoaded">
-      <QuestionBox :question="questions[index]" />
+      <QuestionBox :question="questions[index]" :isEnd="false"/>
 
       <QuestionNav
         :questions="questions"

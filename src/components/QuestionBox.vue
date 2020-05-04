@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h2 class="subtitle" v-html="question.title"></h2>
+    <h2 v-if="!isEnd" class="subtitle" v-html="question.title"></h2>
+    <p v-if="isEnd" class="has-text-weight-bold">
+      <span>{{question.number + ". "}}</span>
+      <span v-html="question.title"></span>
+    </p>
 
     <div class="answers-container">
       <div class="list-item" v-for="(answer, i) in question.answers" v-bind:key="i">
@@ -15,6 +19,8 @@
                 :selected="question.selectedAnswers==i"
                 :key="question.number"
                 class="column is-narrow"
+                :disabled="isEnd"
+                :type="isEnd && answer.isCorrect ? 'is-success' : (answer.isSelected ? 'is-danger' : '')"
               />
               <b-checkbox
                 v-if="question.type == 'multiple'"
@@ -23,8 +29,17 @@
                 :native-value="i"
                 :name="question.number"
                 :key="question.number"
+                :disabled="isEnd"
+                :type="isEnd && answer.isCorrect ? 'is-success' : (answer.isSelected ? 'is-danger' : '')"
               />
-              <span class="column" v-html="answer.text"></span>
+              <span
+                :class="[
+                  'column',
+                  isEnd && answer.isCorrect ? 'has-text-success' : '',
+                  isEnd && !answer.isCorrect && answer.isSelected ? 'has-text-danger' : ''
+                ]"
+                v-html="answer.text"
+              ></span>
             </label>
           </div>
         </div>
@@ -42,7 +57,8 @@
 <script>
 export default {
   props: {
-    question: Object
+    question: Object,
+    isEnd: Boolean
   },
 
   methods: {

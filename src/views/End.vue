@@ -5,40 +5,15 @@
     <div v-if="pointsLoaded">
       <div class="has-text-centered notification is-primary">
         <p class="is-size-1">{{points.toFixed(2)}} in {{timeToString(totalTime)}}</p>
-        <p class="is-size-5">{{corrects}} corrects, {{incorrects}} incorrects and {{unaswered}} unaswered</p>
+        <p
+          class="is-size-5"
+        >{{corrects}} corrects, {{incorrects}} incorrects and {{unaswered}} unaswered</p>
         <p class="is-size-7">On viewed questions only</p>
       </div>
 
       <h2 class="subtitle" v-if="incorrectQuestions.length > 0">Wrong answers</h2>
       <div v-for="(question, j) in incorrectQuestions" :key="j">
-        <p class="has-text-weight-bold">{{ question.number + ". " + question.title }}</p>
-        <div class="list-item control" v-for="(answer, i) in question.answers" v-bind:key="i">
-          <label class="radio">
-            <b-radio
-              v-if="question.type == 'single'"
-              v-model="question.selectedAnswers"
-              :native-value="i"
-              :name="question.number"
-              :type="answer.isCorrect ? 'is-success' : (answer.isSelected ? 'is-danger' : '')"
-              disabled
-            />
-            <b-checkbox
-              v-if="question.type == 'multiple'"
-              v-model="question.selectedAnswers"
-              :native-value="i"
-              :name="question.number"
-              :type="answer.isCorrect ? 'is-success' : (answer.isSelected ? 'is-danger' : '')"
-              disabled
-            />
-            <span
-              :class="[
-              answer.isCorrect ? 'has-text-success' : '',
-              !answer.isCorrect && answer.isSelected ? 'has-text-danger' : ''
-            ]"
-              style="display: inline-block; margin-top: -15px; vertical-align: middle;"
-            >{{ answer.text }}</span>
-          </label>
-        </div>
+        <QuestionBox :question="question" :isEnd="true" />
       </div>
 
       <h2 class="subtitle" style="margin-top: 4rem">Start another quiz</h2>
@@ -49,6 +24,7 @@
 
 <script>
 import router from "@/router";
+import QuestionBox from "@/components/QuestionBox";
 import Launcher from "@/views/Launcher";
 
 export default {
@@ -61,7 +37,8 @@ export default {
   },
 
   components: {
-    Launcher
+    Launcher,
+    QuestionBox
   },
 
   data: function() {
@@ -138,9 +115,9 @@ export default {
 
     // Calculate points
     this.points =
-      process.env.VUE_APP_WEIGHT_CORRECT * this.corrects +
-      process.env.VUE_APP_WEIGHT_INCORRECT * this.incorrects +
-      process.env.VUE_APP_WEIGHT_UNANSWERED * this.unaswered;
+      parseFloat(process.env.VUE_APP_WEIGHT_CORRECT) * this.corrects +
+      parseFloat(process.env.VUE_APP_WEIGHT_INCORRECT) * this.incorrects +
+      parseFloat(process.env.VUE_APP_WEIGHT_UNANSWERED) * this.unaswered;
 
     // Display
     this.pointsLoaded = true;
