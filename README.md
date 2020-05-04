@@ -6,7 +6,7 @@
 This is a simple Vue.js sigle web app that takes multiple choice questions from a Google Sheet and display them randomly.
 It uses a Netlify Cloud function in order to get the questions.
 
-**You can see and example [here](https://quiz-controlli.bassopaolo.com/)**.
+**You can see a demo [here](https://quiz-controlli.bassopaolo.com/)**.
 
 ## Why?
 Some exams at my university have a part which contains multiple choice questions (especially during the COVID pandemic!) so I have bult this app to exercise for those parts using questions written by myself or questions found in past exams. I decided to use Google Sheets to store these questions because the ease of use.
