@@ -1,6 +1,8 @@
 # Vue Netlify Multiple choice
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5121185d-10ab-4cc6-93a1-e4aed0557da1/deploy-status)](https://app.netlify.com/sites/quiz-controlli/deploys)
 
+![Demo](https://i.imgur.com/eys00z6.gifv)
+
 This is a simple Vue.js sigle web app that takes multiple choice questions from a Google Sheet and display them randomly.
 It uses a Netlify Cloud function in order to get the questions.
 
