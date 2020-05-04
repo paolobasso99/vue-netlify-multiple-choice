@@ -6,7 +6,7 @@
       <div class="list-item" v-for="(answer, i) in question.answers" v-bind:key="i">
         <div class="has-text-centered">
           <div class="control">
-            <label class="radio">
+            <label class="radio columns is-mobile">
               <b-radio
                 v-if="question.type == 'single'"
                 v-model="question.selectedAnswers"
@@ -14,18 +14,17 @@
                 :name="question.number"
                 :selected="question.selectedAnswers==i"
                 :key="question.number"
+                class="column is-narrow"
               />
               <b-checkbox
                 v-if="question.type == 'multiple'"
                 v-model="question.selectedAnswers"
+                class="column is-narrow"
                 :native-value="i"
                 :name="question.number"
                 :key="question.number"
               />
-              <span
-                style="display: inline-block; margin-top: -15px; vertical-align: middle;"
-                v-html="answer.text"
-              ></span>
+              <span class="column" v-html="answer.text"></span>
             </label>
           </div>
         </div>
@@ -33,6 +32,12 @@
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.answers-container {
+  margin-bottom: 20px;
+}
+</style>
 
 <script>
 export default {
