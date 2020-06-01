@@ -23,10 +23,11 @@ export async function handler(event, context, callback) {
 
   try {
     // Get sheet
-    const sheet = await Tabletop.init({
+    const spreadsheet = await Tabletop.init({
       key: process.env.VUE_APP_SPREADSHEET_URL,
-      simpleSheet: true,
+      wanted: [process.env.VUE_APP_SHEET_NAME],
     });
+    const sheet = spreadsheet[process.env.VUE_APP_SHEET_NAME].elements;
 
     // Get answered questions
     let row = 0;
@@ -38,10 +39,16 @@ export async function handler(event, context, callback) {
           title: processText(sheet[row].question),
           viewed: false,
           type: "",
+          img: null,
           answers: [],
           isCorrect: true,
           selectedAnswers: [],
         };
+
+        // Img if present
+        if (sheet[row].img.length > 0) {
+          question.img = sheet[row].img;
+        }
 
         // Get answers
         row++;

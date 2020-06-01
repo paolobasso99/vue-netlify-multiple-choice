@@ -6,6 +6,12 @@
       <span v-html="question.title"></span>
     </p>
 
+    <div v-if="question.img" class="columns">
+      <div class="column has-text-centered">
+        <img :src="question.img" alt="Figure">
+      </div>
+    </div>
+
     <div class="answers-container">
       <div class="list-item" v-for="(answer, i) in question.answers" v-bind:key="i">
         <div class="has-text-centered">

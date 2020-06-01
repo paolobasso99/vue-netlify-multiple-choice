@@ -26,17 +26,17 @@ There must be these columns: number, question, answer.
 
 #### Example
 
-| number | question                                          | answer |
-| ------ | ------------------------------------------------- | ------ |
-| 0      | 2+1=?                                             |        |
-|        | 1                                                 | false  |
-|        | 2                                                 | false  |
-|        | 3                                                 | true   |
-|        | 4                                                 | false  |
-| 1      | What to primary colors produce yellow when mixed? |        |
-|        | Red                                               | true   |
-|        | Green                                             | true   |
-|        | Blue                                              | false  |
+| number | question                                          | answer | img                           |
+| ------ | ------------------------------------------------- | ------ | ----------------------------- |
+| 0      | 2+1=?                                             |        |                               |
+|        | 1                                                 | false  |                               |
+|        | 2                                                 | false  |                               |
+|        | 3                                                 | true   |                               |
+|        | 4                                                 | false  |                               |
+| 1      | What to primary colors produce yellow when mixed? |        | https://example.com/image.png |
+|        | Red                                               | true   |                               |
+|        | Green                                             | true   |                               |
+|        | Blue                                              | false  |                               |
 
 ### Sheet URL
 1. `Publish to the web` (`File > Publish to the web`) your sheet as a `Web page`.
@@ -57,6 +57,7 @@ npm run serve
 | Variable                    | required | default                       |
 | --------------------------- | -------- | ----------------------------- |
 | `VUE_APP_SPREADSHEET_URL`   | Yes      | None                          |
+| `VUE_APP_SHEET_NAME`        | No       | Questions                     |
 | `VUE_APP_NAME`              | No       | "Vue Netlify Multiple choice" |
 | `VUE_APP_WEIGHT_CORRECT`    | No       | 1                             |
 | `VUE_APP_WEIGHT_INCORRECT`  | No       | -0.5                          |
