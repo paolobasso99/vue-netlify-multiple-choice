@@ -54,6 +54,8 @@ npm run serve
 ```
 
 ## Envirorment variables
+Note: when deploying to Netlify all envirorment variables are required.
+
 | Variable                    | required | default                       |
 | --------------------------- | -------- | ----------------------------- |
 | `VUE_APP_SPREADSHEET_URL`   | Yes      | None                          |
