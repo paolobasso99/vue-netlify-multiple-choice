@@ -52,22 +52,29 @@ export async function handler(event, context, callback) {
 
         // Get answers
         row++;
+        let hasTrue = false;
         while (row < sheet.length && sheet[row].number.length == 0) {
           const answer = {
             text: processText(sheet[row].question),
             isCorrect: sheet[row].answer.toLowerCase() == "true" ? true : false,
           };
 
+          if(answer.isCorrect) {
+            hasTrue = true;
+          }
+
           question.answers.push(answer);
 
           row++;
         }
 
-        // Shuffle answers
-        question.answers = _arrayShuffle(question.answers);
+        if(hasTrue) {
+          // Shuffle answers
+          question.answers = _arrayShuffle(question.answers);
 
-        // Add question to array
-        questions.push(question);
+          // Add question to array
+          questions.push(question);
+        }
       }
     }
   } catch (e) {
