@@ -23,11 +23,13 @@ export async function handler(event, context, callback) {
 
   try {
     // Get sheet
+    console.log("Getting spreadsheet...");
     const spreadsheet = await Tabletop.init({
       key: process.env.VUE_APP_SPREADSHEET_URL,
       wanted: [process.env.VUE_APP_SHEET_NAME],
     });
     const sheet = spreadsheet[process.env.VUE_APP_SHEET_NAME].elements;
+    console.log("Rows: " + sheet.length);
 
     // Get answered questions
     let row = 0;
@@ -59,7 +61,7 @@ export async function handler(event, context, callback) {
             isCorrect: sheet[row].answer.toLowerCase() == "true" ? true : false,
           };
 
-          if(answer.isCorrect) {
+          if (answer.isCorrect) {
             hasTrue = true;
           }
 
@@ -68,7 +70,7 @@ export async function handler(event, context, callback) {
           row++;
         }
 
-        if(hasTrue) {
+        if (hasTrue) {
           // Shuffle answers
           question.answers = _arrayShuffle(question.answers);
 
@@ -89,6 +91,7 @@ export async function handler(event, context, callback) {
   }
 
   // Return shufled questions of the right ammount
+  console.log("Possible questions: " + questions.length);
   callback(null, {
     statusCode: 200,
     body: JSON.stringify(_sampleSize(questions, howMany)),
