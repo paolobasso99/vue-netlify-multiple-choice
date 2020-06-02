@@ -44,8 +44,7 @@
                   isEnd && answer.isCorrect ? 'has-text-success' : '',
                   isEnd && !answer.isCorrect && answer.isSelected ? 'has-text-danger' : ''
                 ]"
-                v-html="answer.text"
-              ></span>
+              >{{answer.text}}</span>
             </label>
           </div>
         </div>
